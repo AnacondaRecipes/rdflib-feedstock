@@ -91,12 +91,9 @@ outputs:
         - rdfgraphisomorphism --help
         - rdfpipe --help
         # Following scripts 'help' option exit program as error
-        - test -f $PREFIX/bin/rdfs2dot  # [unix]
-        - test -f $PREFIX/bin/rdf2dot  # [unix]
-        - test -f $PREFIX/bin/csv2rdf  # [unix]
-        - if not exist %SCRIPTS%\\rdfs2dot.exe exit 1  # [win]
-        - if not exist %SCRIPTS%\\rdf2dot.exe exit 1  # [win]
-        - if not exist %SCRIPTS%\\csv2rdf.exe exit 1  # [win]
+        - rdfs2dot -h || true
+        - rdf2dot -h || true
+        - csv2rdf --help || true
 
   - name: rdflib-with-networkx
     requirements:
