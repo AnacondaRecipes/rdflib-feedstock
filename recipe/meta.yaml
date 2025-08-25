@@ -51,7 +51,8 @@ outputs:
         - examples
         - rdflib/tools
       requires:
-        - pip
+        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
+        - pip !=25.1
         - pytest >=7.1.3,<9.0.0
         - pytest-cov >=4,<7
       imports:
@@ -87,7 +88,7 @@ outputs:
         - pip check
         - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
         # test_guess_format_for_parse_http_text_plain-> urllib.error.HTTPError: HTTP Error 406: Not Acceptable
-        # - pytest -k "not test_guess_format_for_parse_http_text_plain" test
+        - pytest -k "not test_guess_format_for_parse_http_text_plain" test
         - rdfgraphisomorphism --help
         - rdfpipe --help
         # Following scripts 'help' option exit program as error
@@ -110,7 +111,8 @@ outputs:
       imports:
         - rdflib
       requires:
-        - pip
+        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
+        - pip !=25.1
       commands:
         - pip check
         - python -c "from rdflib.extras.external_graph_libs import rdflib_to_networkx_graph; import rdflib; assert rdflib_to_networkx_graph(rdflib.Graph()) is not None"
@@ -124,8 +126,8 @@ outputs:
         - {{ pin_subpackage("rdflib", exact=True) }}
         - lxml >=4.3,<6.0
     test:
-      # imports:
-      #   - rdflib
+      imports:
+        - rdflib
       requires:
         - pip
       commands:
@@ -144,7 +146,8 @@ outputs:
       imports:
         - rdflib
       requires:
-        - pip
+        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
+        - pip !=25.1
       commands:
         - pip check
         - python -c "from rdflib.plugins.sparql.results import jsonresults; assert jsonresults.orjson"
@@ -165,7 +168,8 @@ outputs:
       imports:
         - rdflib
       requires:
-        - pip
+        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
+        - pip !=25.1
       commands:
         - pip check
 
