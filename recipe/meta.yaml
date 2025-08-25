@@ -91,9 +91,12 @@ outputs:
         - rdfgraphisomorphism --help
         - rdfpipe --help
         # Following scripts 'help' option exit program as error
-        - rdfs2dot -h || true
-        - rdf2dot -h || true
-        - csv2rdf --help || true
+        - rdfs2dot -h || true  # [not win]
+        - rdfs2dot -h || exit 0  # [win]
+        - rdf2dot -h || true  # [not win]
+        - rdf2dot -h || exit 0  # [win]
+        - csv2rdf --help || true  # [not win]
+        - csv2rdf --help || exit 0  # [win]
 
   - name: rdflib-with-networkx
     requirements:
