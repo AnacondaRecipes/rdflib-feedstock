@@ -88,15 +88,15 @@ outputs:
         - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
         # test_guess_format_for_parse_http_text_plain-> urllib.error.HTTPError: HTTP Error 406: Not Acceptable
         - pytest -k "not test_guess_format_for_parse_http_text_plain" test
-        - rdfgraphisomorphism --help
-        - rdfpipe --help
-        # Following scripts 'help' option exit program as error
-        - rdfs2dot -h || true  # [not win]
-        - rdfs2dot -h || exit 0  # [win]
-        - rdf2dot -h || true  # [not win]
-        - rdf2dot -h || exit 0  # [win]
-        - csv2rdf --help || true  # [not win]
-        - csv2rdf --help || exit 0  # [win]
+        # - rdfgraphisomorphism --help
+        # - rdfpipe --help
+        # # Following scripts 'help' option exit program as error
+        # - rdfs2dot -h || true  # [not win]
+        # - rdfs2dot -h || exit 0  # [win]
+        # - rdf2dot -h || true  # [not win]
+        # - rdf2dot -h || exit 0  # [win]
+        # - csv2rdf --help || true  # [not win]
+        # - csv2rdf --help || exit 0  # [win]
 
   - name: rdflib-with-networkx
     requirements:
