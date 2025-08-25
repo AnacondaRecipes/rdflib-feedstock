@@ -90,10 +90,13 @@ outputs:
         - pytest -k "not test_guess_format_for_parse_http_text_plain" test
         - rdfgraphisomorphism --help
         - rdfpipe --help
-        # Following fails during tests
-        # - rdfs2dot --help
-        # - rdf2dot --help
-        # - csv2rdf --help
+        # Following scripts 'help' option exit program as error
+        - test -f $PREFIX/bin/rdfs2dot  # [unix]
+        - test -f $PREFIX/bin/rdf2dot  # [unix]
+        - test -f $PREFIX/bin/csv2rdf  # [unix]
+        - if not exist %SCRIPTS%\\rdfs2dot.exe exit 1  # [win]
+        - if not exist %SCRIPTS%\\rdf2dot.exe exit 1  # [win]
+        - if not exist %SCRIPTS%\\csv2rdf.exe exit 1  # [win]
 
   - name: rdflib-with-networkx
     requirements:
