@@ -124,12 +124,12 @@ outputs:
         - {{ pin_subpackage("rdflib", exact=True) }}
         - lxml >=4.3,<6.0
     test:
-      imports:
-        - rdflib
+      # imports:
+      #   - rdflib
       requires:
         - pip
       commands:
-        # - pip check
+        - pip check
         - python -c "from rdflib.plugins.sparql.results import xmlresults; assert xmlresults.lxml_etree"
 
   - name: rdflib-with-orjson
