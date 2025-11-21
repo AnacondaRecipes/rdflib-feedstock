@@ -3,3 +3,4 @@ build_env_vars:
 
 channels:
   - https://staging.continuum.io/pbp/fs/pyparsing-feedstock/pr12/55dd381
+  - https://staging.continuum.io/pbp/fs/lxml-feedstock/pr18/e08b228
