@@ -55,6 +55,8 @@ outputs:
         - pip !=25.1
         - pytest >=7.1.3,<9.0.0
         - pytest-cov >=4,<7
+        # setuptools needed for plugin tests (test_sparqleval, test_parser) that install plugins via pip
+        - setuptools >=40.8.0
       imports:
         - rdflib
         - rdflib._networking
@@ -88,7 +90,10 @@ outputs:
         - pip check
         - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
         # test_guess_format_for_parse_http_text_plain-> urllib.error.HTTPError: HTTP Error 406: Not Acceptable
-        - pytest -k "not test_guess_format_for_parse_http_text_plain" test
+        # test_service fails due to mismatch from DBpedia SPARQL endpoint (fixed in newer rdflib versions)
+        # Set PIP_NO_BUILD_ISOLATION=1 so pip uses installed setuptools instead of trying to fetch it with --no-index
+        - PIP_NO_BUILD_ISOLATION=1 pytest -k "not test_guess_format_for_parse_http_text_plain and not test_service" test  # [not win]
+        - set PIP_NO_BUILD_ISOLATION=1 && pytest -k "not test_guess_format_for_parse_http_text_plain and not test_service" test  # [win]
         - rdfgraphisomorphism --help
         - rdfpipe --help
         # Following scripts 'help' option exit program as error
