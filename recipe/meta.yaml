@@ -6,11 +6,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: fed46e24f26a788e2ab8e445f7077f00edcf95abb73bcef4b86cefa8b62dd174
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py<38]
   requirements:
     host:
@@ -88,7 +88,9 @@ outputs:
         - pip check
         - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
         # test_guess_format_for_parse_http_text_plain-> urllib.error.HTTPError: HTTP Error 406: Not Acceptable
-        - pytest -k "not test_guess_format_for_parse_http_text_plain" test
+        # test_service fails due to mismatch from DBpedia SPARQL endpoint (fixed in newer rdflib versions)
+        # test_sparqleval and test_parser fail because pip with --no-index cannot fetch setuptools>=40.8.0
+        - pytest -k "not test_guess_format_for_parse_http_text_plain and not test_service and not test_sparqleval and not test_parser" test
         - rdfgraphisomorphism --help
         - rdfpipe --help
         # Following scripts 'help' option exit program as error
