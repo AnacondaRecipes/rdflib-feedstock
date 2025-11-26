@@ -1,17 +1,17 @@
 {% set name = "rdflib" %}
-{% set version = "7.1.4" %}
+{% set version = "7.4.0" %}
 
 package:
   name: {{ name }}-packages
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: fed46e24f26a788e2ab8e445f7077f00edcf95abb73bcef4b86cefa8b62dd174
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: c8ee16c31848c19c174aed96185327ea139ca3d392fac7fa882ddf5687f8f533
 
 build:
   number: 0
-  skip: True  # [py<38]
+  skip: true  # [py<38]
   requirements:
     host:
       - python
@@ -35,10 +35,8 @@ outputs:
         - poetry-core >=2.0.0
       run:
         - python
-        # Drop upstream python limitation for isodate
-        # Due to failing import tests
-        - isodate >=0.7.0,<1.0.0
-        - pyparsing >=3.2.0,<4
+        - isodate >=0.7.2,<1.0.0 # [py<311]
+        - pyparsing >=2.1.0,<4
       run_constrained:
         - berkeleydb >=18.1.0,<19
         - networkx >=2,<4
@@ -51,8 +49,7 @@ outputs:
         - examples
         - rdflib/tools
       requires:
-        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
-        - pip !=25.1
+        - pip
         - pytest >=7.1.3,<9.0.0
         - pytest-cov >=4,<7
       imports:
@@ -87,8 +84,9 @@ outputs:
       commands:
         - pip check
         - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-        # test_guess_format_for_parse_http_text_plain-> urllib.error.HTTPError: HTTP Error 406: Not Acceptable
-        - pytest -k "not test_guess_format_for_parse_http_text_plain" test
+        # test_service fails due to mismatch from DBpedia SPARQL endpoint
+        # test_sparqleval and test_parser fail because pip with --no-index cannot fetch setuptools>=40.8.0
+        - pytest -k "not test_service and not test_sparqleval and not test_parser" test
         - rdfgraphisomorphism --help
         - rdfpipe --help
         # Following scripts 'help' option exit program as error
@@ -98,7 +96,6 @@ outputs:
         - rdf2dot -h || exit 0  # [win]
         - csv2rdf --help || true  # [not win]
         - csv2rdf --help || exit 0  # [win]
-
   - name: rdflib-with-networkx
     requirements:
       host:
@@ -111,12 +108,10 @@ outputs:
       imports:
         - rdflib
       requires:
-        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
-        - pip !=25.1
+        - pip
       commands:
         - pip check
         - python -c "from rdflib.extras.external_graph_libs import rdflib_to_networkx_graph; import rdflib; assert rdflib_to_networkx_graph(rdflib.Graph()) is not None"
-
   - name: rdflib-with-lxml
     requirements:
       host:
@@ -133,7 +128,6 @@ outputs:
       commands:
         - pip check
         - python -c "from rdflib.plugins.sparql.results import xmlresults; assert xmlresults.lxml_etree"
-
   - name: rdflib-with-orjson
     requirements:
       host:
@@ -146,20 +140,16 @@ outputs:
       imports:
         - rdflib
       requires:
-        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
-        - pip !=25.1
+        - pip
       commands:
         - pip check
         - python -c "from rdflib.plugins.sparql.results import jsonresults; assert jsonresults.orjson"
-          
   - name: rdflib-with-all
     requirements:
       host:
         - python
       run:
         - python
-        # html5rdf is not in channels
-        # - {{ pin_subpackage("rdflib-with-html", exact=True) }}
         - {{ pin_subpackage("rdflib-with-lxml", exact=True) }}
         - {{ pin_subpackage("rdflib-with-networkx", exact=True) }}
         - {{ pin_subpackage("rdflib-with-orjson", exact=True) }}
@@ -168,8 +158,7 @@ outputs:
       imports:
         - rdflib
       requires:
-        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
-        - pip !=25.1
+        - pip
       commands:
         - pip check
 
@@ -181,7 +170,8 @@ about:
   summary: RDFLib is a Python library for working with RDF, a simple yet powerful language for representing information.
   dev_url: https://github.com/RDFLib/rdflib
   doc_url: https://rdflib.readthedocs.io
-  description: RDFLib is a pure Python package for working with RDF. RDFLib contains most things you need to work with RDF, including 
+  description: |
+    RDFLib is a pure Python package for working with RDF. RDFLib contains most things you need to work with RDF, including
     parsers and serializers for RDF/XML, N3, NTriples, N-Quads, Turtle, TriX, Trig and JSON-LD
     a Graph interface which can be backed by any one of a number of Store implementations
     store implementations for in-memory, persistent on disk (Berkeley DB) and remote SPARQL endpoints
