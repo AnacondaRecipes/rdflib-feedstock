@@ -2,3 +2,10 @@ anaconda_config_version: 1
 upstream_sources:
   - pypi:
       identifier: rdflib
+      packages: &id001
+        - rdflib
+        - rdflib-with-all
+        - rdflib-with-lxml
+        - rdflib-with-networkx
+        - rdflib-with-orjson
+    packages: *id001
