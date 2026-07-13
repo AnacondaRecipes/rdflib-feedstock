@@ -6,17 +6,18 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: fed46e24f26a788e2ab8e445f7077f00edcf95abb73bcef4b86cefa8b62dd174
 
 build:
-  number: 0
-  skip: True  # [py<38]
-  requirements:
-    host:
-      - python
-    run:
-      - python
+  number: 1
+  skip: true  # [py<38]
+
+requirements:
+  host:
+    - python
+  run:
+    - python
 
 outputs:
   - name: rdflib
@@ -51,8 +52,7 @@ outputs:
         - examples
         - rdflib/tools
       requires:
-        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
-        - pip !=25.1
+        - pip
         - pytest >=7.1.3,<9.0.0
         - pytest-cov >=4,<7
       imports:
@@ -111,8 +111,7 @@ outputs:
       imports:
         - rdflib
       requires:
-        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
-        - pip !=25.1
+        - pip
       commands:
         - pip check
         - python -c "from rdflib.extras.external_graph_libs import rdflib_to_networkx_graph; import rdflib; assert rdflib_to_networkx_graph(rdflib.Graph()) is not None"
@@ -146,8 +145,7 @@ outputs:
       imports:
         - rdflib
       requires:
-        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
-        - pip !=25.1
+        - pip
       commands:
         - pip check
         - python -c "from rdflib.plugins.sparql.results import jsonresults; assert jsonresults.orjson"
@@ -168,8 +166,7 @@ outputs:
       imports:
         - rdflib
       requires:
-        # exclude 25.1 to fix _test_env\Scripts\pip-script.py' is not present.
-        - pip !=25.1
+        - pip
       commands:
         - pip check
 
