@@ -188,3 +188,5 @@ extra:
     - satra
     - nicholascar
     - bollwyvl
+  skip-lints:
+    - missing_python_build_tool
