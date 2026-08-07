@@ -43,6 +43,7 @@ outputs:
         - html5rdf >=1.2,<2
         - lxml >=4.3,<6.0
         - orjson >=3.9.14,<4
+        - httpx >=0.28.1
     test:
       source_files:
         - test
@@ -96,6 +97,7 @@ outputs:
         - rdf2dot -h || exit 0  # [win]
         - csv2rdf --help || true  # [not win]
         - csv2rdf --help || exit 0  # [win]
+
   - name: rdflib-with-networkx
     requirements:
       host:
@@ -112,6 +114,7 @@ outputs:
       commands:
         - pip check
         - python -c "from rdflib.extras.external_graph_libs import rdflib_to_networkx_graph; import rdflib; assert rdflib_to_networkx_graph(rdflib.Graph()) is not None"
+
   - name: rdflib-with-lxml
     requirements:
       host:
@@ -128,6 +131,7 @@ outputs:
       commands:
         - pip check
         - python -c "from rdflib.plugins.sparql.results import xmlresults; assert xmlresults.lxml_etree"
+
   - name: rdflib-with-orjson
     requirements:
       host:
@@ -144,6 +148,7 @@ outputs:
       commands:
         - pip check
         - python -c "from rdflib.plugins.sparql.results import jsonresults; assert jsonresults.orjson"
+
   - name: rdflib-with-all
     requirements:
       host:
@@ -168,8 +173,6 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: RDFLib is a Python library for working with RDF, a simple yet powerful language for representing information.
-  dev_url: https://github.com/RDFLib/rdflib
-  doc_url: https://rdflib.readthedocs.io
   description: |
     RDFLib is a pure Python package for working with RDF. RDFLib contains most things you need to work with RDF, including
     parsers and serializers for RDF/XML, N3, NTriples, N-Quads, Turtle, TriX, Trig and JSON-LD
@@ -177,15 +180,8 @@ about:
     store implementations for in-memory, persistent on disk (Berkeley DB) and remote SPARQL endpoints
     a SPARQL 1.1 implementation - supporting SPARQL 1.1 Queries and Update statements
     SPARQL function extension mechanisms
-
-
-
-
-
-
-
-
-
+  dev_url: https://github.com/RDFLib/rdflib
+  doc_url: https://rdflib.readthedocs.io
 
 extra:
   recipe-maintainers:
