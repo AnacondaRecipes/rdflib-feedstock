@@ -183,6 +183,15 @@ about:
   dev_url: https://github.com/RDFLib/rdflib
   doc_url: https://rdflib.readthedocs.io
 
+
+
+
+
+
+
+
+
+
 extra:
   recipe-maintainers:
     - satra
